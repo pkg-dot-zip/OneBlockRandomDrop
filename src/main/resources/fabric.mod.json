@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "oneblockrandomdrop",
+  "version": "${version}",
+  "name": "OneBlockRandomDrop",
+  "description": "",
+  "authors": [
+    "ZimonIsHim"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/oneblockrandomdrop/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.zimonishim.oneblockrandomdrop.client.OneblockrandomdropClient"
+    ],
+    "main": [
+      "com.zimonishim.oneblockrandomdrop.Oneblockrandomdrop"
+    ]
+  },
+  "mixins": [
+    "oneblockrandomdrop.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.6",
+    "fabric": "*",
+    "minecraft": "1.17.1"
+  }
+}

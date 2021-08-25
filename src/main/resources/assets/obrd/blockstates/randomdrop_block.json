@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "obrd:block/randomdrop_block"
+    }
+  }
+}
