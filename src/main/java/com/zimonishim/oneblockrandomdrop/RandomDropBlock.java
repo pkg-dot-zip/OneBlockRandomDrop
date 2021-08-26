@@ -1,6 +1,6 @@
 package com.zimonishim.oneblockrandomdrop;
 
-import com.zimonishim.oneblockrandomdrop.config.ConfigHandler;
+import com.zimonishim.oneblockrandomdrop.config.ChanceConfigContainer;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
 import net.minecraft.block.Block;
@@ -22,12 +22,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.zimonishim.oneblockrandomdrop.config.ChanceConfig.STANDARD_CHANCE;
+import static com.zimonishim.oneblockrandomdrop.config.ConfigHandler.STANDARD_CHANCE;
 
 public class RandomDropBlock extends Block {
 
     private static Map<String, Double> ITEMS_MAP;
-
     private static double TOTAL_CHANCE; //Should be the sum of all doubles of ITEMS_MAP.
 
     public RandomDropBlock() {
@@ -73,11 +72,11 @@ public class RandomDropBlock extends Block {
 
     public static void initValues() {
         //These are temporary values we use to process the data.
-        Map<String, Double> tempMap = new HashMap<>(ConfigHandler.CHANCE_CONFIG.getChanceMap().size());
+        Map<String, Double> tempMap = new HashMap<>(ChanceConfigContainer.CHANCE_CONFIG.getChanceMap().size());
         double totalChance = 0;
 
         //First we filter out all the invalid data.
-        for (Map.Entry<String, Double> entry : ConfigHandler.CHANCE_CONFIG.getChanceMap().entrySet()) {
+        for (Map.Entry<String, Double> entry : ChanceConfigContainer.CHANCE_CONFIG.getChanceMap().entrySet()) {
             String s = entry.getKey();
             Double aDouble = entry.getValue();
 
