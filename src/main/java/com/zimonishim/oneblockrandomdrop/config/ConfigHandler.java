@@ -13,7 +13,7 @@ public class ConfigHandler {
     static final Gson GSON = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).setPrettyPrinting().create();
     static final File CONFIG_DIRECTORY = FabricLoader.getInstance().getConfigDir().toFile();
     static final String DROP_CHANCE_CONFIG_NAME = Oneblockrandomdrop.MOD_ID + "_dropChance" + ".json";
-    static final String SETTINGS_CONFIG_NAME = Oneblockrandomdrop.MOD_ID + "_settings" + ".json"; //TODO: Create settings config with standard value.
+    static final String SETTINGS_CONFIG_NAME = Oneblockrandomdrop.MOD_ID + "_settings" + ".json"; //TODO: Create settings config with standardChance value.
 
-    public static final double STANDARD_CHANCE = 1D;
+    public static final double STANDARD_CHANCE = 50D;
 }

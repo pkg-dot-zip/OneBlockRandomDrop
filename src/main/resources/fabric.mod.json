@@ -10,12 +10,9 @@
   ],
   "contact": {},
   "license": "MIT",
-  "icon": "assets/oneblockrandomdrop/icon.png",
+  "icon": "assets/obrd/logo.png",
   "environment": "*",
   "entrypoints": {
-    "client": [
-      "com.zimonishim.oneblockrandomdrop.client.OneblockrandomdropClient"
-    ],
     "main": [
       "com.zimonishim.oneblockrandomdrop.Oneblockrandomdrop"
     ]
