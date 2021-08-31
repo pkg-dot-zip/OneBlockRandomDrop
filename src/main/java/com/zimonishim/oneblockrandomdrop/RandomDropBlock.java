@@ -40,7 +40,7 @@ public class RandomDropBlock extends Block {
 
         ItemStack randomItem = getRandomItemStack(world);
 
-        if (!player.getInventory().insertStack(randomItem)) {
+        if (!player.inventory.insertStack(randomItem)) {
             player.dropItem(randomItem, false, false);
         }
 
