@@ -86,7 +86,7 @@ public class RandomDropBlock extends Block {
             Double aDouble = entry.getValue();
 
             if (aDouble <= 0D) continue;        //If chance is 0 or lower we do NOT add the item to the map.
-            if (aDouble > 100) aDouble = 100.0; //If chance is higher than 100 we set it to a 100.
+            if (aDouble > 1000) aDouble = 1000.0; //If chance is higher than 100 we set it to a 100.
             totalChance += aDouble;             //Add the chance to the totalChance.
             tempMap.put(s, aDouble);
         }
@@ -121,7 +121,7 @@ public class RandomDropBlock extends Block {
             Double aDouble = entry.getValue();
 
             try {
-                fileWriter.write(s + " - With a chance of " + aDouble + "\n");
+                fileWriter.write("\"" + s + "\" : " + aDouble + "," + "\n");
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -23,6 +23,7 @@ public class Oneblockrandomdrop implements ModInitializer {
     public static final Block RANDOMDROP_BLOCK = new RandomDropBlock();
 
     //Debug part.
+    private static final boolean allowDebugging = false;
     private static boolean debugDone = false;
     private static KeyBinding printItemMapKeyBinding;
 
@@ -40,21 +41,23 @@ public class Oneblockrandomdrop implements ModInitializer {
         Registry.register(Registry.ITEM, new Identifier("obrd", "randomdrop_block"), new BlockItem(RANDOMDROP_BLOCK, new FabricItemSettings().group(ItemGroup.MISC)));
 
         //Debug part.
-        printItemMapKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.obrd.printMap", // The translation key of the keybinding's name
-                InputUtil.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
-                GLFW.GLFW_KEY_COMMA, // The keycode of the key
-                "debug.obrd.main" // The translation key of the keybinding's category.
-        ));
+        if (allowDebugging){
+            printItemMapKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                    "key.obrd.printMap", // The translation key of the keybinding's name
+                    InputUtil.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
+                    GLFW.GLFW_KEY_COMMA, // The keycode of the key
+                    "debug.obrd.main" // The translation key of the keybinding's category.
+            ));
 
-        ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            while (printItemMapKeyBinding.wasPressed()) {
-                client.player.sendMessage(new LiteralText("Key 1 was pressed!"), false);
-                if (!debugDone){
-                    debugDone = true;
-                    RandomDropBlock.printItemMap();
+            ClientTickEvents.END_CLIENT_TICK.register(client -> {
+                while (printItemMapKeyBinding.wasPressed()) {
+                    client.player.sendMessage(new LiteralText("Key 1 was pressed!"), false);
+                    if (!debugDone){
+                        debugDone = true;
+                        RandomDropBlock.printItemMap();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 }

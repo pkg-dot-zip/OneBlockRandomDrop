@@ -33,7 +33,7 @@ public class ChanceConfig {
     }
 
     private void fillMap(Map<String, Double> map){
-        map.forEach((s, integer) -> System.out.println(s + " " + integer));
+//        map.forEach((s, integer) -> System.out.println(s + " " + integer));
         this.chanceMap.putAll(map);
     }
 
