@@ -2,7 +2,6 @@ package com.zimonishim.oneblockrandomdrop;
 
 import com.zimonishim.oneblockrandomdrop.config.ChanceConfigContainer;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -35,7 +34,7 @@ public class RandomDropBlock extends Block {
     private static double TOTAL_CHANCE; //Should be the sum of all doubles of ITEMS_MAP.
 
     public RandomDropBlock() {
-        super(FabricBlockSettings.copyOf(Blocks.BARREL).breakByHand(true).breakByTool(FabricToolTags.AXES).strength(0.8f));
+        super(FabricBlockSettings.copyOf(Blocks.BARREL).strength(0.8f));
     }
 
     @Override
@@ -52,15 +51,15 @@ public class RandomDropBlock extends Block {
         world.setBlockState(pos, state);
     }
 
-    private static ItemStack getRandomItemStack(World world){
-        int randomInt = world.getRandom().nextInt((int)TOTAL_CHANCE);
+    private static ItemStack getRandomItemStack(World world) {
+        int randomInt = world.getRandom().nextInt((int) TOTAL_CHANCE);
 
         Item randomItem = null;
         int current = 0;
 
         for (Map.Entry<String, Double> entry : ITEMS_MAP.entrySet()) {
             current += entry.getValue();
-            if (randomInt < current){
+            if (randomInt < current) {
                 randomItem = Registry.ITEM.get(Identifier.tryParse(entry.getKey()));
                 break;
             }
@@ -86,7 +85,7 @@ public class RandomDropBlock extends Block {
             Double aDouble = entry.getValue();
 
             if (aDouble <= 0D) continue;        //If chance is 0 or lower we do NOT add the item to the map.
-            if (aDouble > 1000) aDouble = 1000.0; //If chance is higher than 100 we set it to a 100.
+            if (aDouble > 1000) aDouble = 1000.0; //If chance is higher than 1000 we set it to a 1000.
             totalChance += aDouble;             //Add the chance to the totalChance.
             tempMap.put(s, aDouble);
         }
@@ -97,8 +96,8 @@ public class RandomDropBlock extends Block {
     }
 
     //Ensures that we register items from other mods, even with this mod is loaded first.
-    public static void addItem(String string){
-        if (ITEMS_MAP.containsKey(string)){
+    public static void addItem(String string) {
+        if (ITEMS_MAP.containsKey(string)) {
             ITEMS_MAP.put(string, STANDARD_CHANCE);
             TOTAL_CHANCE += STANDARD_CHANCE;
         }
