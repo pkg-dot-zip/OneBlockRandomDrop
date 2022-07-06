@@ -15,6 +15,9 @@
   "entrypoints": {
     "main": [
       "com.zimonishim.oneblockrandomdrop.Oneblockrandomdrop"
+    ],
+    "client": [
+      "com.zimonishim.oneblockrandomdrop.client.OneblockrandomdropClient"
     ]
   },
   "mixins": [

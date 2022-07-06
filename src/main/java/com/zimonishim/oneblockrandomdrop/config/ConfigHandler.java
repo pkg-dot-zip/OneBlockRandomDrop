@@ -15,5 +15,5 @@ public class ConfigHandler {
     static final String DROP_CHANCE_CONFIG_NAME = Oneblockrandomdrop.MOD_ID + "_dropChance" + ".json";
     static final String SETTINGS_CONFIG_NAME = Oneblockrandomdrop.MOD_ID + "_settings" + ".json"; //TODO: Create settings config with standardChance value.
 
-    public static final double STANDARD_CHANCE = 50D;
+    public static final double STANDARD_CHANCE = 0D;
 }

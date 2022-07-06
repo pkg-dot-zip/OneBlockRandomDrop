@@ -1,4 +1,4 @@
-package com.zimonishim.oneblockrandomdrop;
+package com.zimonishim.oneblockrandomdrop.block;
 
 import com.zimonishim.oneblockrandomdrop.config.ChanceConfigContainer;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -18,15 +18,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.zimonishim.oneblockrandomdrop.config.ConfigHandler.STANDARD_CHANCE;
 
 public class RandomDropBlock extends Block {
 
@@ -93,43 +86,5 @@ public class RandomDropBlock extends Block {
         //Finally, we set the attributes to the new calculated ones.
         TOTAL_CHANCE = totalChance;
         ITEMS_MAP = tempMap;
-    }
-
-    //Ensures that we register items from other mods, even with this mod is loaded first.
-    public static void addItem(String string) {
-        if (ITEMS_MAP.containsKey(string)) {
-            ITEMS_MAP.put(string, STANDARD_CHANCE);
-            TOTAL_CHANCE += STANDARD_CHANCE;
-        }
-    }
-
-    public static void printItemMap() {
-        File f = new File("mapLog.txt");
-        FileWriter fileWriter = null;
-
-        try {
-            fileWriter = new FileWriter(f);
-            fileWriter.write("\nLog from " + LocalDateTime.now().format(DateTimeFormatter.BASIC_ISO_DATE) + ".\n");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        for (Map.Entry<String, Double> entry : ITEMS_MAP.entrySet()) {
-            String s = entry.getKey();
-            Double aDouble = entry.getValue();
-
-            try {
-                fileWriter.write("\"" + s + "\" : " + aDouble + "," + "\n");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        try {
-            fileWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
