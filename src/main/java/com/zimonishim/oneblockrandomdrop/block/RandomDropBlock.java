@@ -10,7 +10,9 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.stat.Stats;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
@@ -35,10 +37,17 @@ public class RandomDropBlock extends Block {
         player.incrementStat(Stats.MINED.getOrCreateStat(this));
         player.addExhaustion(0.005F);
 
-        ItemStack randomItem = getRandomItemStack(world);
+        // Check if empty, if so send a message and exit method.
+        if (ITEMS_MAP.isEmpty() || TOTAL_CHANCE <= 0D) {
+            if (world instanceof ServerWorld) {
+                player.sendMessage(Text.of("Drop chances JSON is empty. Can not drop item."));
+            }
+        } else {
+            ItemStack randomItem = getRandomItemStack(world);
 
-        if (!player.getInventory().insertStack(randomItem)) {
-            player.dropItem(randomItem, false, false);
+            if (!player.getInventory().insertStack(randomItem)) {
+                player.dropItem(randomItem, false, false);
+            }
         }
 
         world.setBlockState(pos, state);
