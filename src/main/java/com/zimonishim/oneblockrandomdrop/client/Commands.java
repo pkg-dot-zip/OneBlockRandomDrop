@@ -51,7 +51,7 @@ public class Commands {
                 Integer anInt = context.getArgument("value", Integer.class);
 
                 try {
-                    fileWriter.write("\"" + s + "\" : " + anInt + "," + "\n");
+                    fileWriter.write("\"" + s + "\": " + anInt + "," + "\n");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
