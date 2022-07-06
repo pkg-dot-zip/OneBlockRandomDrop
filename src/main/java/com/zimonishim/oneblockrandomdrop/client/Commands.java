@@ -47,7 +47,7 @@ public class Commands {
             }
 
             for (Item item : Registry.ITEM) {
-                String s = item.getTranslationKey();
+                String s = Registry.ITEM.getId(item).toString();
                 Integer anInt = context.getArgument("value", Integer.class);
 
                 try {
