@@ -1,8 +1,7 @@
-package com.zimonishim.oneblockrandomdrop;
+package com.zimonishim.oneblockrandomdrop.block;
 
 import com.zimonishim.oneblockrandomdrop.config.ChanceConfigContainer;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -11,7 +10,9 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.stat.Stats;
+import net.minecraft.text.LiteralText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
@@ -19,15 +20,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.zimonishim.oneblockrandomdrop.config.ConfigHandler.STANDARD_CHANCE;
 
 public class RandomDropBlock extends Block {
 
@@ -35,7 +29,7 @@ public class RandomDropBlock extends Block {
     private static double TOTAL_CHANCE; //Should be the sum of all doubles of ITEMS_MAP.
 
     public RandomDropBlock() {
-        super(FabricBlockSettings.copyOf(Blocks.BARREL).breakByHand(true).breakByTool(FabricToolTags.AXES).strength(0.8f));
+        super(FabricBlockSettings.copyOf(Blocks.BARREL).strength(0.8f));
     }
 
     @Override
@@ -43,24 +37,30 @@ public class RandomDropBlock extends Block {
         player.incrementStat(Stats.MINED.getOrCreateStat(this));
         player.addExhaustion(0.005F);
 
-        ItemStack randomItem = getRandomItemStack(world);
+        if (ITEMS_MAP.isEmpty() || TOTAL_CHANCE <= 0D) {
+            if (world instanceof ServerWorld) {
+                player.sendMessage(new LiteralText("Drop chances JSON is empty. Can not drop item."), false);
+            }
+        } else {
+            ItemStack randomItem = getRandomItemStack(world);
 
-        if (!player.getInventory().insertStack(randomItem)) {
-            player.dropItem(randomItem, false, false);
+            if (!player.getInventory().insertStack(randomItem)) {
+                player.dropItem(randomItem, false, false);
+            }
         }
 
         world.setBlockState(pos, state);
     }
 
-    private static ItemStack getRandomItemStack(World world){
-        int randomInt = world.getRandom().nextInt((int)TOTAL_CHANCE);
+    private static ItemStack getRandomItemStack(World world) {
+        int randomInt = world.getRandom().nextInt((int) TOTAL_CHANCE);
 
         Item randomItem = null;
         int current = 0;
 
         for (Map.Entry<String, Double> entry : ITEMS_MAP.entrySet()) {
             current += entry.getValue();
-            if (randomInt < current){
+            if (randomInt < current) {
                 randomItem = Registry.ITEM.get(Identifier.tryParse(entry.getKey()));
                 break;
             }
@@ -94,43 +94,5 @@ public class RandomDropBlock extends Block {
         //Finally, we set the attributes to the new calculated ones.
         TOTAL_CHANCE = totalChance;
         ITEMS_MAP = tempMap;
-    }
-
-    //Ensures that we register items from other mods, even with this mod is loaded first.
-    public static void addItem(String string){
-        if (ITEMS_MAP.containsKey(string)){
-            ITEMS_MAP.put(string, STANDARD_CHANCE);
-            TOTAL_CHANCE += STANDARD_CHANCE;
-        }
-    }
-
-    public static void printItemMap() {
-        File f = new File("mapLog.txt");
-        FileWriter fileWriter = null;
-
-        try {
-            fileWriter = new FileWriter(f);
-            fileWriter.write("\nLog from " + LocalDateTime.now().format(DateTimeFormatter.BASIC_ISO_DATE) + ".\n");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        for (Map.Entry<String, Double> entry : ITEMS_MAP.entrySet()) {
-            String s = entry.getKey();
-            Double aDouble = entry.getValue();
-
-            try {
-                fileWriter.write("\"" + s + "\" : " + aDouble + "," + "\n");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        try {
-            fileWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
