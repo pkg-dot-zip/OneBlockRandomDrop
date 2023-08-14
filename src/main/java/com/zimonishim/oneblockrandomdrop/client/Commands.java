@@ -7,7 +7,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.item.Item;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -46,8 +46,8 @@ public class Commands {
                 e.printStackTrace();
             }
 
-            for (Item item : Registry.ITEM) {
-                String s = Registry.ITEM.getId(item).toString();
+            for (Item item : Registries.ITEM) {
+                String s = Registries.ITEM.getId(item).toString();
                 Integer anInt = context.getArgument("value", Integer.class);
 
                 try {

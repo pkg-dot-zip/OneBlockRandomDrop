@@ -10,12 +10,13 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
 import org.jetbrains.annotations.Nullable;
@@ -62,7 +63,7 @@ public class RandomDropBlock extends Block {
         for (Map.Entry<String, Double> entry : ITEMS_MAP.entrySet()) {
             current += entry.getValue();
             if (randomInt < current) {
-                randomItem = Registry.ITEM.get(Identifier.tryParse(entry.getKey()));
+                randomItem = Registries.ITEM.get(Identifier.tryParse(entry.getKey()));
                 break;
             }
         }
